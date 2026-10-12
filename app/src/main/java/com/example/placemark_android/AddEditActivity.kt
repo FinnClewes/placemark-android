@@ -3,7 +3,7 @@ package com.example.placemark_android
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
@@ -19,68 +19,39 @@ class AddEditActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        createUserInterface()
+        setContentView(R.layout.activity_add_edit)
 
-        editingId = intent.getLongExtra("id", -1L)
+        titleInput = findViewById(R.id.titleInput)
 
-        if (editingId != -1L) {
+        descriptionInput = findViewById(R.id.descriptionInput)
+
+        xInput = findViewById(R.id.xInput)
+
+        yInput = findViewById(R.id.yInput)
+
+        val saveButton = findViewById<Button>(R.id.saveButton)
+
+        val cancelButton = findViewById<Button>(R.id.cancelButton)
+
+        editingId =
+            intent.getLongExtra("id", -1L)
+                .takeIf { it != -1L }
+
+        if (editingId != null) {
+
+            findViewById<TextView>(R.id.formTitle)
+                .text = "Edit Mark"
+
             loadExistingMark(editingId!!)
         }
-    }
 
-    private fun createUserInterface() {
-
-        val root = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(32, 320, 32, 32)
+        saveButton.setOnClickListener {
+            saveMark()
         }
 
-        titleInput = EditText(this).apply {
-            hint = "Title"
+        cancelButton.setOnClickListener {
+            finish()
         }
-
-        descriptionInput = EditText(this).apply {
-            hint = "Description"
-        }
-
-        xInput = EditText(this).apply {
-            hint = "X coordinate"
-            inputType =
-                android.text.InputType.TYPE_CLASS_NUMBER or
-                        android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-
-        yInput = EditText(this).apply {
-            hint = "Y coordinate"
-            inputType =
-                android.text.InputType.TYPE_CLASS_NUMBER or
-                        android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL
-        }
-
-        val saveButton = Button(this).apply {
-            text = "Save"
-
-            setOnClickListener {
-                saveMark()
-            }
-        }
-
-        val cancelButton = Button(this).apply {
-            text = "Cancel"
-
-            setOnClickListener {
-                finish()
-            }
-        }
-
-        root.addView(titleInput)
-        root.addView(descriptionInput)
-        root.addView(xInput)
-        root.addView(yInput)
-        root.addView(saveButton)
-        root.addView(cancelButton)
-
-        setContentView(root)
     }
 
     private fun loadExistingMark(id: Long) {
@@ -128,7 +99,7 @@ class AddEditActivity : AppCompatActivity() {
             return
         }
 
-        if (editingId == null || editingId == -1L) {
+        if (editingId == null) {
 
             val mark = PlacemarkModel(
                 title = title,

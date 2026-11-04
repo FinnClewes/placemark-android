@@ -9,6 +9,7 @@ import android.content.Intent
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 
 class MarkListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
@@ -25,12 +26,21 @@ class MarkListActivity : AppCompatActivity() {
         adapter = PlacedMarkAdapter(
             marks = AppData.placedMarks.findAll(),
 
-            onEdit = { mark ->
-                editMark(mark)
-            },
+            listener = object : OnMarkListener {
 
-            onDelete = { mark ->
-                deleteMark(mark)
+                override fun onMarkClick(mark: PlacemarkModel) {
+
+                    editMark(mark)
+
+                }
+
+                override fun onMarkLongClick(mark: PlacemarkModel): Boolean {
+
+                    deleteMark(mark)
+
+                    return true
+
+                }
             }
         )
 
@@ -69,6 +79,8 @@ class MarkListActivity : AppCompatActivity() {
         intent.putExtra("id", mark.id)
 
         startActivity(intent)
+
+        Timber.d("Editing mark id=${mark.id}, title=${mark.title}")
     }
 
     private fun deleteMark(mark: PlacemarkModel) {
@@ -78,15 +90,7 @@ class MarkListActivity : AppCompatActivity() {
         adapter.updateMarks(
             AppData.placedMarks.findAll()
         )
+
+        Timber.d("Deleting mark id=${mark.id}, title=${mark.title}")
     }
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_mark_list)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.marksTitle)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
-    }*/
 }

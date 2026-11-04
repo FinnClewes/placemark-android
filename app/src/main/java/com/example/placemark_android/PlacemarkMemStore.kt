@@ -1,6 +1,7 @@
 package com.example.placemark_android
 
 import java.util.concurrent.atomic.AtomicLong
+import timber.log.Timber
 
 class PlacemarkMemStore {
     private val placemarks = ArrayList<PlacemarkModel>()
@@ -13,6 +14,7 @@ class PlacemarkMemStore {
     fun create(placemark: PlacemarkModel) {
         placemark.id = lastId.incrementAndGet()
         placemarks.add(placemark)
+        Timber.i("Created placemark: id=%d, title=%s", placemark.id, placemark.title)
     }
 
     fun update(placemark: PlacemarkModel): Boolean {
@@ -22,8 +24,10 @@ class PlacemarkMemStore {
             foundPlacemark.description = placemark.description
             foundPlacemark.x = placemark.x
             foundPlacemark.y = placemark.y
+            Timber.i("Updated placemark: id=%d, title=%s", placemark.id, placemark.title)
             true
         } else {
+            Timber.w("Update failed: no placemark with id=%d", placemark.id)
             false
         }
     }
@@ -32,8 +36,10 @@ class PlacemarkMemStore {
         val foundPlacemark = findOne(id)
         return if (foundPlacemark != null) {
             placemarks.remove(foundPlacemark)
+            Timber.i("Deleted placemark: id=%d", id)
             true
         } else {
+            Timber.w("Delete failed: no placemark with id=%d", id)
             false
         }
     }

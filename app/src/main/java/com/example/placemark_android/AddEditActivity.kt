@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import timber.log.Timber
 
 class AddEditActivity : AppCompatActivity() {
 
@@ -46,10 +47,12 @@ class AddEditActivity : AppCompatActivity() {
         }
 
         saveButton.setOnClickListener {
+            Timber.i("Save button clicked")
             saveMark()
         }
 
         cancelButton.setOnClickListener {
+            Timber.i("Cancel button clicked")
             finish()
         }
     }
@@ -59,6 +62,7 @@ class AddEditActivity : AppCompatActivity() {
         val mark = AppData.placedMarks.findOne(id)
 
         if (mark == null) {
+            Timber.e("No mark found with id=%d", id)
             Toast.makeText(
                 this,
                 "Mark not found",
@@ -81,6 +85,7 @@ class AddEditActivity : AppCompatActivity() {
         val description = descriptionInput.text.toString().trim()
 
         if (title.isEmpty()) {
+            Timber.w("Save failed: title is empty")
             titleInput.error = "Title is required"
             return
         }
@@ -88,6 +93,7 @@ class AddEditActivity : AppCompatActivity() {
         val x = xInput.text.toString().toFloatOrNull()
 
         if (x == null) {
+            Timber.w("Save failed: invalid X value '%s'", xInput.text)
             xInput.error = "Enter a valid number"
             return
         }
@@ -95,6 +101,7 @@ class AddEditActivity : AppCompatActivity() {
         val y = yInput.text.toString().toFloatOrNull()
 
         if (y == null) {
+            Timber.w("Save failed: invalid Y value '%s'", yInput.text)
             yInput.error = "Enter a valid number"
             return
         }
@@ -109,6 +116,8 @@ class AddEditActivity : AppCompatActivity() {
             )
 
             AppData.placedMarks.create(mark)
+
+            Timber.i("Mark created: title=%s, x=%f, y=%f", mark.title, mark.x, mark.y)
 
             Toast.makeText(
                 this,
@@ -127,6 +136,8 @@ class AddEditActivity : AppCompatActivity() {
             )
 
             AppData.placedMarks.update(mark)
+
+            Timber.i("Mark updated: id=%d, title=%s", mark.id, mark.title)
 
             Toast.makeText(
                 this,

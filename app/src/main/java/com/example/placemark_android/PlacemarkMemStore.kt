@@ -12,16 +12,19 @@ class PlacemarkMemStore {
     }
 
     fun create(placemark: PlacemarkModel) {
+        placemark.validate()
         placemark.id = lastId.incrementAndGet()
         placemarks.add(placemark)
         Timber.i("Created placemark: id=%d, title=%s", placemark.id, placemark.title)
     }
 
     fun update(placemark: PlacemarkModel): Boolean {
+        placemark.validate()
+
         val foundPlacemark = findOne(placemark.id)
         return if (foundPlacemark != null) {
             foundPlacemark.title = placemark.title
-            foundPlacemark.description = placemark.description
+            foundPlacemark.desc = placemark.desc
             foundPlacemark.x = placemark.x
             foundPlacemark.y = placemark.y
             Timber.i("Updated placemark: id=%d, title=%s", placemark.id, placemark.title)

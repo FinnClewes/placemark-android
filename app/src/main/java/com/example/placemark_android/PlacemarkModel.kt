@@ -7,9 +7,22 @@ package com.example.placemark_android
 data class PlacemarkModel(
     var id: Long = 0L,
     var title: String = "",
-    var description: String = "",
-    var x: Float = 0F,
-    var y: Float = 0F
+    var desc: String = "",
+    var x: Float = 0.0F,  // Latitude
+    var y: Float = 0.0F,  // Longitude
+    var imageUri: String? = null
+) {
+    fun validate() {
+        require(title.isNotBlank()) {
+            "Name must not be empty."
+        }
 
-    // TODO add more here
-)
+        require(x.isFinite() && x in -90.0..90.0) {
+            "Latitude must be between -90 and 90."
+        }
+
+        require(y.isFinite() && y in -180.0..180.0) {
+            "Longitude must be between -180 and 180."
+        }
+    }
+}

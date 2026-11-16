@@ -58,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="X Coordinate"
-                    android:inputType="number|numberDecimal" />
+                    android:inputType="number|numberDecimal|numberSigned" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -70,7 +70,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Y Coordinate"
-                    android:inputType="number|numberDecimal" />
+                    android:inputType="number|numberDecimal|numberSigned" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
@@ -84,6 +84,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Cancel" />
+
+            <ImageView
+                android:id="@+id/imageViewAdd"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <Button
+                android:id="@+id/imagePickButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Image" />
 
         </LinearLayout>
     </ScrollView>

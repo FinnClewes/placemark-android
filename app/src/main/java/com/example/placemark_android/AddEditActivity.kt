@@ -171,8 +171,8 @@ class AddEditActivity : AppCompatActivity() {
         } catch (e: IllegalArgumentException) {
             Timber.w("Save rejected: %s", e.message)
             Toast.makeText(this, e.message ?: "Please check the entered values.", Toast.LENGTH_LONG).show()
-            yInput.error = "Must be a decimal between -90.0 and 90.0"
-            xInput.error = "Must be a decimal between -180.0 and 180.0"
+            xInput.error = "Must be a decimal between -90.0 and 90.0"
+            yInput.error = "Must be a decimal between -180.0 and 180.0"
             return
         }
 

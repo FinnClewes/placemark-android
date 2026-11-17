@@ -85,6 +85,12 @@
                 android:layout_height="wrap_content"
                 android:text="Cancel" />
 
+            <Button
+                android:id="@+id/imagePickButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Image" />
+
             <ImageView
                 android:id="@+id/imageViewAdd"
                 android:layout_width="match_parent"
@@ -92,12 +98,6 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
-
-            <Button
-                android:id="@+id/imagePickButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Select Image" />
 
         </LinearLayout>
     </ScrollView>

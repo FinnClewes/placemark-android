@@ -12,10 +12,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Placemarkandroid">
         <activity
-            android:name=".AddEditActivity"
+            android:name=".activities.AddEditActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MarkListActivity"
+            android:name=".activities.MarkListActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity

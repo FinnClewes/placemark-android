@@ -1,15 +1,19 @@
-package com.example.placemark_android
+package com.example.placemark_android.activities
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import timber.log.Timber
-import android.net.Uri
-import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import com.example.placemark_android.data.AppData
+import com.example.placemark_android.models.PlacemarkModel
+import com.example.placemark_android.R
+import timber.log.Timber
 
 class AddEditActivity : AppCompatActivity() {
 
@@ -30,7 +34,7 @@ class AddEditActivity : AppCompatActivity() {
                 try {
                     contentResolver.takePersistableUriPermission(
                         uri,
-                        android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
                     )
                 } catch (_: SecurityException) {
                     // Some providers may not grant persistable access.

@@ -7,6 +7,12 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <ImageView
+        android:id="@+id/markImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars" />
+
     <TextView
         android:id="@+id/titleText"
         android:layout_width="match_parent"
@@ -28,21 +34,4 @@
         android:layout_height="wrap_content"
         android:text="coordinates" />
 
-    <Button
-        android:id="@+id/editButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Edit" />
-
-    <Button
-        android:id="@+id/deleteButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Delete" />
-
-    <ImageView
-        android:id="@+id/markImage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars" />
 </LinearLayout>

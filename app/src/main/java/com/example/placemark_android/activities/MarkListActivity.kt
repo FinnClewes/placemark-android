@@ -1,14 +1,16 @@
-package com.example.placemark_android
+package com.example.placemark_android.activities
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import android.content.Intent
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.placemark_android.data.AppData
+import com.example.placemark_android.adapters.OnMarkListener
+import com.example.placemark_android.adapters.PlacedMarkAdapter
+import com.example.placemark_android.models.PlacemarkModel
+import com.example.placemark_android.R
 import timber.log.Timber
 
 class MarkListActivity : AppCompatActivity() {

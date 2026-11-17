@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_add_edit">
+    tools:context=".activities.AddEditActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -85,6 +85,12 @@
                 android:layout_height="wrap_content"
                 android:text="Cancel" />
 
+            <Button
+                android:id="@+id/imagePickButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select Image" />
+
             <ImageView
                 android:id="@+id/imageViewAdd"
                 android:layout_width="match_parent"
@@ -94,10 +100,10 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <Button
-                android:id="@+id/imagePickButton"
+                android:id="@+id/mapPicker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Select Image" />
+                android:text="Pick Map" />
 
         </LinearLayout>
     </ScrollView>

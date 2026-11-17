@@ -1,15 +1,19 @@
-package com.example.placemark_android
+package com.example.placemark_android.activities
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import timber.log.Timber
-import android.net.Uri
-import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import com.example.placemark_android.data.AppData
+import com.example.placemark_android.models.PlacemarkModel
+import com.example.placemark_android.R
+import timber.log.Timber
 
 class AddEditActivity : AppCompatActivity() {
 
@@ -17,6 +21,9 @@ class AddEditActivity : AppCompatActivity() {
     private lateinit var descriptionInput: EditText
     private lateinit var xInput: EditText
     private lateinit var yInput: EditText
+
+    private var selectedLatitude: Double? = null
+    private var selectedLongitude: Double? = null
 
     private var editingId: Long? = null
 
@@ -30,7 +37,7 @@ class AddEditActivity : AppCompatActivity() {
                 try {
                     contentResolver.takePersistableUriPermission(
                         uri,
-                        android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
                     )
                 } catch (_: SecurityException) {
                     // Some providers may not grant persistable access.
@@ -76,6 +83,25 @@ class AddEditActivity : AppCompatActivity() {
             loadExistingMark(editingId!!)
         }
 
+        val mapPicker =
+            registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val data = result.data ?: return@registerForActivityResult
+                    selectedLatitude = data.getDoubleExtra("latitude", 0.0)
+                    selectedLongitude = data.getDoubleExtra("longitude", 0.0)
+
+                    selectedLatitude?.let {
+                        xInput.setText(it.toString())
+                    }
+
+                    selectedLongitude?.let {
+                        yInput.setText(it.toString())
+                    }
+                }
+            }
+
         saveButton.setOnClickListener {
             Timber.i("Save button clicked")
             saveMark()
@@ -84,6 +110,21 @@ class AddEditActivity : AppCompatActivity() {
         cancelButton.setOnClickListener {
             Timber.i("Cancel button clicked")
             finish()
+        }
+
+        findViewById<Button>(R.id.mapPicker).setOnClickListener {
+            val intent = Intent(this, MapPickerActivity::class.java)
+
+            val lat = xInput.text.toString().toDoubleOrNull()
+            val lon = yInput.text.toString().toDoubleOrNull()
+            if (lat != null && lon != null) {
+                intent.putExtra("latitude", lat)
+                intent.putExtra("longitude", lon)
+            }
+
+            intent.putExtra("title", titleInput.text.toString())
+
+            mapPicker.launch(intent)
         }
     }
 
@@ -171,8 +212,8 @@ class AddEditActivity : AppCompatActivity() {
         } catch (e: IllegalArgumentException) {
             Timber.w("Save rejected: %s", e.message)
             Toast.makeText(this, e.message ?: "Please check the entered values.", Toast.LENGTH_LONG).show()
-            yInput.error = "Must be a decimal between -90.0 and 90.0"
-            xInput.error = "Must be a decimal between -180.0 and 180.0"
+            xInput.error = "Must be a decimal between -90.0 and 90.0"
+            yInput.error = "Must be a decimal between -180.0 and 180.0"
             return
         }
 

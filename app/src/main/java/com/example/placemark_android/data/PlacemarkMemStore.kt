@@ -1,7 +1,8 @@
-package com.example.placemark_android
+package com.example.placemark_android.data
 
-import java.util.concurrent.atomic.AtomicLong
+import com.example.placemark_android.models.PlacemarkModel
 import timber.log.Timber
+import java.util.concurrent.atomic.AtomicLong
 
 class PlacemarkMemStore {
     private val placemarks = ArrayList<PlacemarkModel>()

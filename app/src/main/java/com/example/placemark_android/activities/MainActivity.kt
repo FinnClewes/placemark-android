@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.placemark_android.R
+import com.example.placemark_android.data.AppData
 import timber.log.Timber
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +41,6 @@ class MainActivity : AppCompatActivity() {
                 Intent(this, AddEditActivity::class.java)
             )
         }
-
+        AppData.initialize(this)
     }
 }

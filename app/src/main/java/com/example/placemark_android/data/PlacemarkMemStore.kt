@@ -28,6 +28,7 @@ class PlacemarkMemStore {
             foundPlacemark.desc = placemark.desc
             foundPlacemark.x = placemark.x
             foundPlacemark.y = placemark.y
+            foundPlacemark.imageUri = placemark.imageUri
             Timber.i("Updated placemark: id=%d, title=%s", placemark.id, placemark.title)
             true
         } else {

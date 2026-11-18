@@ -13,7 +13,7 @@ import timber.log.Timber
 
 class PlacedMarkAdapter(
     private var marks: List<PlacemarkModel>,
-    private val listener: OnMarkListener
+    private val listener: OnMarkListener,
 ) : RecyclerView.Adapter<PlacedMarkAdapter.MarkViewHolder>() {
 
     class MarkViewHolder(itemView: View) :

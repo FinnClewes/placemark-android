@@ -1,12 +1,42 @@
 package com.example.placemark_android.data
 
 import com.example.placemark_android.models.PlacemarkModel
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import timber.log.Timber
+import java.io.File
 import java.util.concurrent.atomic.AtomicLong
 
-class PlacemarkMemStore {
+class PlacemarkMemStore(private val file: File) {
     private val placemarks = ArrayList<PlacemarkModel>()
     private val lastId = AtomicLong(0L)
+
+    private val gson = GsonBuilder()
+        .setPrettyPrinting()
+        .create()
+
+    init {
+        load()
+    }
+
+    private fun load() {
+        if (!file.exists()) return
+
+        val type = object : TypeToken<ArrayList<PlacemarkModel>>() {}.type
+
+        val loaded: ArrayList<PlacemarkModel> =
+            gson.fromJson(file.readText(), type) ?: arrayListOf()
+
+        placemarks.clear()
+        placemarks.addAll(loaded)
+
+        lastId.set(placemarks.maxOfOrNull { it.id } ?: 0L)
+    }
+
+    private fun save() {
+        file.parentFile?.mkdirs()
+        file.writeText(gson.toJson(placemarks))
+    }
 
     fun findAll(): List<PlacemarkModel> {
         return placemarks
@@ -17,6 +47,7 @@ class PlacemarkMemStore {
         placemark.id = lastId.incrementAndGet()
         placemarks.add(placemark)
         Timber.i("Created placemark: id=%d, title=%s", placemark.id, placemark.title)
+        save()
     }
 
     fun update(placemark: PlacemarkModel): Boolean {
@@ -30,6 +61,7 @@ class PlacemarkMemStore {
             foundPlacemark.y = placemark.y
             foundPlacemark.imageUri = placemark.imageUri
             Timber.i("Updated placemark: id=%d, title=%s", placemark.id, placemark.title)
+            save()
             true
         } else {
             Timber.w("Update failed: no placemark with id=%d", placemark.id)
@@ -42,6 +74,7 @@ class PlacemarkMemStore {
         return if (foundPlacemark != null) {
             placemarks.remove(foundPlacemark)
             Timber.i("Deleted placemark: id=%d", id)
+            save()
             true
         } else {
             Timber.w("Delete failed: no placemark with id=%d", id)

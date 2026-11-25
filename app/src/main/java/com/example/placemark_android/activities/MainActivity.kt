@@ -28,6 +28,9 @@ class MainActivity : AppCompatActivity() {
         val addMarkButton =
             findViewById<Button>(R.id.addMarkButton)
 
+        val mapListButton =
+            findViewById<Button>(R.id.mapListButton)
+
         viewMarksButton.setOnClickListener {
             Timber.i("View Marks clicked, opening MarkListActivity")
             startActivity(
@@ -39,6 +42,13 @@ class MainActivity : AppCompatActivity() {
             Timber.i("Add Mark clicked, opening AddEditActivity")
             startActivity(
                 Intent(this, AddEditActivity::class.java)
+            )
+        }
+
+        mapListButton.setOnClickListener {
+            Timber.i("View Marks clicked, opening MapListActivity")
+            startActivity(
+                Intent(this, MapListActivity::class.java)
             )
         }
         AppData.initialize(this)
